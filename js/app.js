@@ -24,3 +24,9 @@ app.get('/product/:id', async (req,res) =>{
 })
 
 app.listen(port,() => console.log('servidor arriba' + Date()))
+
+
+//? Test
+// http://localhost:8000/product
+// http://localhost:8000/product/1
+// http://localhost:8000/product/?limit=2

@@ -8,14 +8,14 @@ class productManager{
         this.products= [];
     }
 
-    validarDatos(tittle,description,price,thumbnail,code,stock){
+    validateData(tittle,description,price,thumbnail,code,stock){
         let mensajes = this.controlDatos(tittle,"String");
         mensajes += this.controlDatos(description,"String");
         mensajes += this.controlDatos(price,"Number");
         mensajes += this.controlDatos(thumbnail,"String");
         mensajes += this.controlDatos(code,"String");
         mensajes += this.controlDatos(stock,"Number");
-        mensajes += this.getExisteCodigo(code);
+        mensajes += this.getFindByCode(code);
         return mensajes;
     }
 
@@ -46,7 +46,7 @@ class productManager{
     }
 
     addProduct(tittle,description,price,thumbnail,code,stock){
-        let mensaje = this.validarDatos(tittle,description,price,thumbnail,code,stock);
+        let mensaje = this.validateData(tittle,description,price,thumbnail,code,stock);
         if(mensaje == ''){
             productManager.id++;
             this.products.push({tittle,description,price,thumbnail,code,stock,id: productManager.id});
@@ -56,14 +56,14 @@ class productManager{
         }
     }
 
-    borrarArchivo = async() => {
+    delArchivo = async() => {
         await fs.promises.unlink(this.path)
         ;
     }
 
     updProduct(tittle,description,price,thumbnail,code,stock,id,productos){
         let productsOld =productos;
-        let mensaje = this.validarDatos(tittle,description,price,thumbnail,code,stock);
+        let mensaje = this.validateData(tittle,description,price,thumbnail,code,stock);
         if(mensaje == ''){
             for (let index = 0; index < productsOld.length; index++) {
                 if(productsOld[index].id === id)    productsOld[index] = {tittle,description,price,thumbnail,code,stock,id};
@@ -93,7 +93,7 @@ class productManager{
     }
 
 
-    getExisteCodigo= (code) => {
+    getFindByCode= (code) => {
         let producto = this.products;
         return producto.some(x=> x.code === code) ? `codigo repetido ${code}` : '';
     }
@@ -138,8 +138,9 @@ class productManager{
 
 module.exports = new productManager();
 
+//? Test
 //let productoNuevo = new productManager();
-//productoNuevo.borrarArchivo();
+//productoNuevo.delArchivo();
 
 // productoNuevo.addProduct('producto prueba1','Este es un producto prueba1',200,'Sin imagen1','abc123',25);
 // productoNuevo.addProduct('producto prueba2','Este es un producto prueba2',200,'Sin imagen2','abc124',25);
